@@ -1,5 +1,5 @@
 import "server-only";
-import { supabase, TABLES, type TableName } from "./supabase";
+import { getSupabase, TABLES, type TableName } from "./supabase";
 import type { DB, Goal, Link, Note, Project, Recurring, Task, Transaction } from "./types";
 
 /* ----------------------------- date helpers ----------------------------- */
@@ -31,14 +31,15 @@ function rowToLink(r: any): Link { return { ...r }; }
 
 /* ------------------------------- read DB ------------------------------- */
 export async function readDB(): Promise<DB> {
+  const sb = getSupabase();
   const [projects, tasks, transactions, recurrings, goals, notes, links] = await Promise.all([
-    supabase.from("projects").select("*"),
-    supabase.from("tasks").select("*"),
-    supabase.from("transactions").select("*"),
-    supabase.from("recurrings").select("*"),
-    supabase.from("goals").select("*"),
-    supabase.from("notes").select("*"),
-    supabase.from("links").select("*"),
+    sb.from("projects").select("*"),
+    sb.from("tasks").select("*"),
+    sb.from("transactions").select("*"),
+    sb.from("recurrings").select("*"),
+    sb.from("goals").select("*"),
+    sb.from("notes").select("*"),
+    sb.from("links").select("*"),
   ]);
   for (const r of [projects, tasks, transactions, recurrings, goals, notes, links]) {
     if (r.error) throw new Error(`Supabase read failed: ${r.error.message}`);
@@ -71,12 +72,13 @@ async function syncTable(name: TableName, before: Row[], after: Row[]) {
   const toDelete: string[] = [];
   for (const row of before) if (!afterMap.has(row.id)) toDelete.push(row.id);
 
+  const sb = getSupabase();
   if (toDelete.length) {
-    const { error } = await supabase.from(name).delete().in("id", toDelete);
+    const { error } = await sb.from(name).delete().in("id", toDelete);
     if (error) throw new Error(`Delete on ${name} failed: ${error.message}`);
   }
   if (toUpsert.length) {
-    const { error } = await supabase.from(name).upsert(toUpsert);
+    const { error } = await sb.from(name).upsert(toUpsert);
     if (error) throw new Error(`Upsert on ${name} failed: ${error.message}`);
   }
 }
@@ -178,9 +180,10 @@ async function seedDB(): Promise<DB> {
     ["projects", projects], ["tasks", tasks], ["transactions", transactions],
     ["recurrings", recurrings], ["goals", goals], ["notes", notes], ["links", links],
   ];
+  const sb = getSupabase();
   for (const [t, rows] of inserts) {
     if (rows.length === 0) continue;
-    const { error } = await supabase.from(t).insert(rows);
+    const { error } = await sb.from(t).insert(rows);
     if (error) throw new Error(`Seed ${t} failed: ${error.message}`);
   }
   return { projects, tasks, transactions, recurrings, goals, notes, links };
