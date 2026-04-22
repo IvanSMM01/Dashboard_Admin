@@ -1,0 +1,22 @@
+"use client";
+import { create } from "zustand";
+
+interface UIState {
+  paletteOpen: boolean;
+  openPalette: () => void;
+  closePalette: () => void;
+  togglePalette: () => void;
+
+  activeProjectId: string | null;
+  setActiveProject: (id: string | null) => void;
+}
+
+export const useUI = create<UIState>((set) => ({
+  paletteOpen: false,
+  openPalette:  () => set({ paletteOpen: true }),
+  closePalette: () => set({ paletteOpen: false }),
+  togglePalette:() => set(s => ({ paletteOpen: !s.paletteOpen })),
+
+  activeProjectId: null,
+  setActiveProject: (id) => set({ activeProjectId: id }),
+}));

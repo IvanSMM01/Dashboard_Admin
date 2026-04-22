@@ -1,0 +1,21 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm install *)",
+      "Bash(npm run *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"projects=%{http_code} project_detail=\" http://localhost:3000/projects)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code} api_summary=\" http://localhost:3000/projects/p_dashboard)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" http://localhost:3000/api/summary)",
+      "Bash(curl -s -o /dev/null -w \"home=%{http_code}\\\\n\" http://localhost:3000/)",
+      "Bash(node -e \"const p=require\\('./package.json'\\);console.log\\('next',p.dependencies.next,'react',p.dependencies.react\\)\")",
+      "Bash(taskkill //PID 23408 //F)",
+      "Bash(taskkill //PID 6884 //F)",
+      "Bash(curl -s -o /dev/null -w \"home=%{http_code} api=\" http://localhost:3000/)",
+      "Bash(curl -s -o /dev/null -w \"project_detail=%{http_code}\\\\n\" http://localhost:3000/projects/p_telegrambot)",
+      "WebFetch(domain:openclaw.ai)",
+      "WebFetch(domain:docs.openclaw.ai)",
+      "Bash(npx tsc *)"
+    ]
+  }
+}

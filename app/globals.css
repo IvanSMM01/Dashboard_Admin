@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --grad-1: radial-gradient(1200px 600px at -10% -20%, #e8edff 0%, transparent 60%),
+            radial-gradient(900px 500px at 110% 0%, #ffe6f0 0%, transparent 55%),
+            radial-gradient(700px 600px at 50% 120%, #e7f8ee 0%, transparent 60%);
+}
+
+html, body {
+  @apply text-ink-900 antialiased;
+  font-feature-settings: "ss01", "cv11";
+  background: #f6f7fb;
+  background-image: var(--grad-1);
+  background-attachment: fixed;
+}
+
+::selection { background: #dce6ff; }
+
+/* Scrollbar */
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb { background: #dde2ee; border-radius: 999px; }
+*::-webkit-scrollbar-thumb:hover { background: #bcc5d8; }
+*::-webkit-scrollbar-track { background: transparent; }
+
+@keyframes fade-in   { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
+@keyframes pop-in    { from { opacity: 0; transform: scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes shimmer   { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+
+@layer components {
+  .card {
+    @apply bg-white/85 backdrop-blur-xl rounded-2xl border border-white/60 ring-1 ring-ink-100/70;
+    box-shadow:
+      0 1px 0 rgba(255,255,255,.6) inset,
+      0 1px 2px rgba(16,24,40,.04),
+      0 12px 30px -18px rgba(16,24,40,.18);
+  }
+  .card-flat {
+    @apply bg-white rounded-2xl border border-ink-100;
+  }
+  .glass {
+    @apply bg-white/70 backdrop-blur-xl border border-white/60 ring-1 ring-ink-100/60;
+  }
+  .chip {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-sm font-medium transition;
+  }
+  .btn-primary {
+    @apply btn text-white;
+    background: linear-gradient(180deg, #2c344a 0%, #0e1220 100%);
+    box-shadow: 0 1px 0 rgba(255,255,255,.18) inset, 0 6px 20px -10px rgba(14,18,32,.7);
+  }
+  .btn-primary:hover { filter: brightness(1.07); }
+  .btn-ghost   { @apply btn bg-ink-100 text-ink-700 hover:bg-ink-200; }
+  .input {
+    @apply w-full bg-white border border-ink-200 rounded-xl px-3 py-2 text-sm
+           focus:outline-none focus:ring-2 focus:ring-brand-200 focus:border-brand-400;
+  }
+  .anim-in { animation: fade-in .35s ease both; }
+  .pop-in  { animation: pop-in .25s ease both; }
+
+  .pretty-divider {
+    background: linear-gradient(90deg, transparent, #e3e7f1, transparent);
+    height: 1px; width: 100%;
+  }
+}
+
+/* Recharts polish */
+.recharts-cartesian-axis-tick text { font-size: 11px; fill: #8a96b1; }
+.recharts-default-tooltip {
+  border-radius: 12px !important;
+  border: 1px solid #eef1f7 !important;
+  box-shadow: 0 8px 30px -12px rgba(16,24,40,.18) !important;
+}
