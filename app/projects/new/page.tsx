@@ -57,15 +57,38 @@ export default function NewProjectPage() {
           </div>
           <div>
             <div className="text-sm mb-2">Look</div>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 items-center">
               {palette.map(p => (
                 <button type="button" key={p.color}
                   onClick={() => setForm({ ...form, color: p.color, emoji: p.emoji })}
-                  className={`w-10 h-10 grid place-items-center rounded-xl text-lg ${p.color} ${form.color === p.color ? "ring-2 ring-ink-900" : ""}`}>
+                  className={`w-10 h-10 grid place-items-center rounded-xl text-lg ${p.color} ${form.color === p.color && form.emoji === p.emoji ? "ring-2 ring-ink-900" : ""}`}>
                   {p.emoji}
                 </button>
               ))}
+              <div className={`w-10 h-10 grid place-items-center rounded-xl text-lg ${form.color} ring-2 ring-ink-300`}>
+                {form.emoji}
+              </div>
             </div>
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              <label className="block text-sm">Custom emoji or letter
+                <input className="input mt-1" maxLength={3} placeholder="🚀 / A / 💼" value={form.emoji}
+                       onChange={(e) => setForm({ ...form, emoji: e.target.value })}/>
+              </label>
+              <label className="block text-sm">Background
+                <select className="input mt-1" value={form.color}
+                        onChange={(e) => setForm({ ...form, color: e.target.value })}>
+                  <option value="bg-accent-mint">Mint</option>
+                  <option value="bg-accent-sky">Sky</option>
+                  <option value="bg-accent-peach">Peach</option>
+                  <option value="bg-accent-lilac">Lilac</option>
+                  <option value="bg-accent-lemon">Lemon</option>
+                  <option value="bg-accent-rose">Rose</option>
+                  <option value="bg-ink-100">Gray</option>
+                  <option value="bg-ink-900 text-white">Dark</option>
+                </select>
+              </label>
+            </div>
+            <p className="text-xs text-ink-400 mt-2">Tip: paste any emoji (🚀 💰 🎨), or use 1–2 letters as a logo (e.g. <b>AB</b>).</p>
           </div>
         </div>
         <button disabled={busy} className="btn-primary">{busy ? "Creating…" : "Create project"}</button>
