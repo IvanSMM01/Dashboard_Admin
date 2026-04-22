@@ -44,7 +44,7 @@ export async function readDB(): Promise<DB> {
   for (const r of [projects, tasks, transactions, recurrings, goals, notes, links]) {
     if (r.error) throw new Error(`Supabase read failed: ${r.error.message}`);
   }
-  let db: DB = {
+  const db: DB = {
     projects:     (projects.data ?? []).map(rowToProject),
     tasks:        (tasks.data ?? []).map(rowToTask),
     transactions: (transactions.data ?? []).map(rowToTx),
@@ -53,7 +53,6 @@ export async function readDB(): Promise<DB> {
     notes:        (notes.data ?? []).map(rowToNote),
     links:        (links.data ?? []).map(rowToLink),
   };
-  if (db.projects.length === 0) db = await seedDB();
   return db;
 }
 
