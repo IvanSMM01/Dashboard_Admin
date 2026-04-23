@@ -15,7 +15,8 @@
       "Bash(curl -s -o /dev/null -w \"project_detail=%{http_code}\\\\n\" http://localhost:3000/projects/p_telegrambot)",
       "WebFetch(domain:openclaw.ai)",
       "WebFetch(domain:docs.openclaw.ai)",
-      "Bash(npx tsc *)"
+      "Bash(npx tsc *)",
+      "Bash(gh auth *)"
     ]
   }
 }

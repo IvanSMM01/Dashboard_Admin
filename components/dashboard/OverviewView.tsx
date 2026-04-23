@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
+import { useState } from "react";
 import { ArrowUpRight, AlertTriangle, Clock, Wallet, TrendingUp, ListChecks, FolderKanban, BellRing, CalendarClock } from "lucide-react";
 import StatCard from "@/components/StatCard";
+import QuickAddModal, { type QuickMode } from "@/components/QuickAddModal";
 import SpendChart from "@/components/charts/SpendChart";
 import CategoryDonut from "@/components/charts/CategoryDonut";
 import ActivityFeed from "@/components/ActivityFeed";
@@ -12,6 +14,8 @@ import type { DashboardData } from "./DashboardTabs";
 
 export default function OverviewView({ data }: { data: DashboardData }) {
   const { projects, transactions, tasks, perProject, activity } = data;
+  const [quick, setQuick] = useState<QuickMode>(null);
+  const defaultProjectId = projects[0]?.id;
   const totalBudget = projects.reduce((s, p) => s + p.budget, 0);
   const totalSpent  = transactions.filter(x => x.type === "expense").reduce((s, x) => s + x.amount, 0);
   const totalIncome = transactions.filter(x => x.type === "income").reduce((s, x) => s + x.amount, 0);
@@ -96,11 +100,17 @@ export default function OverviewView({ data }: { data: DashboardData }) {
 
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         <StatCard tone="ink"   icon={<Wallet size={14}/>}      label="Total budget"  value={money(totalBudget)} hint="across all projects" />
-        <StatCard tone="sky"   icon={<TrendingUp size={14}/>}  label="Total spent"   value={money(totalSpent)}  delta={-3.2} hint="last 30 days" spark={spark}/>
-        <StatCard tone="mint"  icon={<TrendingUp size={14}/>}  label="Income"        value={money(totalIncome)} delta={12.8} hint="last 30 days"/>
-        <StatCard tone="lilac" icon={<ListChecks size={14}/>}  label="Tasks done"    value={`${doneTasks}/${tasks.length}`} hint={`${Math.round(doneTasks/Math.max(tasks.length,1)*100)}% completion`}/>
-        <StatCard tone="peach" icon={<FolderKanban size={14}/>} label="Active"        value={`${projects.filter(p=>p.status==="active").length}`} hint={`${projects.filter(p=>p.status==="paused").length} paused`}/>
+        <StatCard tone="sky"   icon={<TrendingUp size={14}/>}  label="Total spent"   value={money(totalSpent)}  delta={-3.2} hint="last 30 days" spark={spark}
+                  onClick={projects.length ? () => setQuick("expense") : undefined} actionHint="Add expense"/>
+        <StatCard tone="mint"  icon={<TrendingUp size={14}/>}  label="Income"        value={money(totalIncome)} delta={12.8} hint="last 30 days"
+                  onClick={projects.length ? () => setQuick("income") : undefined} actionHint="Add income"/>
+        <StatCard tone="lilac" icon={<ListChecks size={14}/>}  label="Tasks done"    value={`${doneTasks}/${tasks.length}`} hint={`${Math.round(doneTasks/Math.max(tasks.length,1)*100)}% completion`}
+                  onClick={projects.length ? () => setQuick("task") : undefined} actionHint="Add task"/>
+        <StatCard tone="peach" icon={<FolderKanban size={14}/>} label="Active"        value={`${projects.filter(p=>p.status==="active").length}`} hint={`${projects.filter(p=>p.status==="paused").length} paused`}
+                  onClick={() => setQuick("project")} actionHint="New project"/>
       </div>
+
+      <QuickAddModal mode={quick} onClose={() => setQuick(null)} projects={projects} defaultProjectId={defaultProjectId}/>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div className="card p-5 lg:col-span-2">

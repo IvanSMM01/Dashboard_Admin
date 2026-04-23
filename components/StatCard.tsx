@@ -11,6 +11,8 @@ interface Props {
   icon?: ReactNode;
   spark?: number[];
   className?: string;
+  onClick?: () => void;
+  actionHint?: string;
 }
 
 const toneMap: Record<NonNullable<Props["tone"]>, { card: string; sub: string; chip: string }> = {
@@ -46,12 +48,15 @@ function Spark({ data, dark }: { data: number[]; dark: boolean }) {
   );
 }
 
-export default function StatCard({ label, value, hint, delta, tone = "ink", icon, spark, className }: Props) {
+export default function StatCard({ label, value, hint, delta, tone = "ink", icon, spark, className, onClick, actionHint }: Props) {
   const t = toneMap[tone];
   const dark = tone === "ink" || tone === "brand";
   const positive = (delta ?? 0) >= 0;
+  const Tag: any = onClick ? "button" : "div";
   return (
-    <div className={clsx("relative overflow-hidden rounded-2xl p-5 border", t.card, className)}
+    <Tag onClick={onClick} type={onClick ? "button" : undefined}
+         className={clsx("relative overflow-hidden rounded-2xl p-5 border text-left w-full",
+           onClick && "cursor-pointer transition hover:-translate-y-0.5 hover:shadow-lg group", t.card, className)}
          style={{ boxShadow: "0 12px 30px -18px rgba(16,24,40,.25), 0 1px 0 rgba(255,255,255,.5) inset" }}>
       <div className="flex items-start justify-between gap-2">
         <div className="flex items-center gap-2">
@@ -73,6 +78,11 @@ export default function StatCard({ label, value, hint, delta, tone = "ink", icon
         {spark && <Spark data={spark} dark={dark}/>}
       </div>
       {hint && <div className={clsx("mt-1 text-xs", t.sub)}>{hint}</div>}
-    </div>
+      {onClick && actionHint && (
+        <div className={clsx("mt-2 text-[11px] opacity-0 group-hover:opacity-100 transition", t.sub)}>
+          + {actionHint}
+        </div>
+      )}
+    </Tag>
   );
 }
