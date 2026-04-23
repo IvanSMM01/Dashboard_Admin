@@ -1,7 +1,7 @@
 "use client";
 import Topbar from "@/components/Topbar";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { createProject } from "./actions";
 
 const palette = [
   { color: "bg-accent-mint",  emoji: "🌱" },
@@ -13,24 +13,22 @@ const palette = [
 ];
 
 export default function NewProjectPage() {
-  const router = useRouter();
   const [form, setForm] = useState({
     name: "", description: "", emoji: "🚀", color: "bg-accent-sky",
-    budget: 1000, currency: "USD" as const, status: "active" as const,
+    budget: 1000, currency: "USD" as "USD"|"EUR"|"UAH",
   });
-  const [busy, setBusy] = useState(false);
+  const [pending, start] = useTransition();
+  const [error, setError] = useState<string | null>(null);
 
-  async function submit(e: React.FormEvent) {
+  function submit(e: React.FormEvent) {
     e.preventDefault();
-    setBusy(true);
-    const r = await fetch("/api/projects", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(form),
+    setError(null);
+    start(async () => {
+      try { await createProject(form); }
+      catch (err: any) { setError(err?.message ?? "Failed to create project"); }
     });
-    const { project } = await r.json();
-    router.push(`/projects/${project.id}`);
   }
+  const busy = pending;
 
   return (
     <>
@@ -91,6 +89,7 @@ export default function NewProjectPage() {
             <p className="text-xs text-ink-400 mt-2">Tip: paste any emoji (🚀 💰 🎨), or use 1–2 letters as a logo (e.g. <b>AB</b>).</p>
           </div>
         </div>
+        {error && <div className="text-sm text-rose-600">{error}</div>}
         <button disabled={busy} className="btn-primary">{busy ? "Creating…" : "Create project"}</button>
       </form>
     </>
