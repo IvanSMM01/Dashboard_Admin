@@ -11,7 +11,7 @@ export default async function ProjectsPage() {
   return (
     <>
       <Topbar title="Projects" subtitle={`${db.projects.length} total`} />
-      <div className="px-6 py-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+      <div className="px-4 sm:px-6 py-5 sm:py-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
         {db.projects.map(p => {
           const s = projectStats(db, p.id)!;
           return (

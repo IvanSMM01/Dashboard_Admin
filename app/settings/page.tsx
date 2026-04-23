@@ -4,7 +4,7 @@ export default function SettingsPage() {
   return (
     <>
       <Topbar title="Settings" subtitle="Workspace preferences" />
-      <div className="px-6 py-6 max-w-2xl space-y-4">
+      <div className="px-4 sm:px-6 py-5 sm:py-6 max-w-2xl space-y-4">
         <div className="card p-5">
           <h3 className="font-semibold mb-2">Profile</h3>
           <div className="grid grid-cols-2 gap-3">

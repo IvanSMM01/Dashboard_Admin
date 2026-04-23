@@ -27,7 +27,7 @@ export default function BotPage() {
   return (
     <>
       <Topbar title="Telegram bot" subtitle="Connect your assistant to this dashboard" />
-      <div className="px-6 py-6 space-y-4 max-w-4xl">
+      <div className="px-4 sm:px-6 py-5 sm:py-6 space-y-4 max-w-4xl">
         <div className="card p-6">
           <div className="flex items-center gap-3">
             <div className="w-12 h-12 rounded-2xl bg-brand-500 text-white grid place-items-center"><Bot size={20}/></div>

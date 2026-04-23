@@ -33,7 +33,7 @@ export default function NewProjectPage() {
   return (
     <>
       <Topbar title="New project" subtitle="Spin up a new workspace" />
-      <form onSubmit={submit} className="px-6 py-6 max-w-xl space-y-4">
+      <form onSubmit={submit} className="px-4 sm:px-6 py-5 sm:py-6 max-w-xl space-y-4">
         <div className="card p-5 space-y-4">
           <label className="block text-sm">Name
             <input className="input mt-1" required value={form.name}

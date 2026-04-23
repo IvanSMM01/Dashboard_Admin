@@ -54,7 +54,7 @@ export default async function Page() {
   return (
     <>
       <Topbar title="Dashboard" subtitle={`${db.projects.length} projects · ${money(totalSpent)} spent this period`} />
-      <div className="px-6 py-6 space-y-6">
+      <div className="px-4 sm:px-6 py-5 sm:py-6 space-y-6">
         <ProjectSwitcher projects={db.projects} />
         <DashboardTabs data={data} />
       </div>

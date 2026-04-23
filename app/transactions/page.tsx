@@ -15,7 +15,7 @@ export default async function TransactionsPage() {
   return (
     <>
       <Topbar title="Transactions" subtitle={`${txs.length} entries`} />
-      <div className="px-6 py-6 space-y-4">
+      <div className="px-4 sm:px-6 py-5 sm:py-6 space-y-4">
         <QuickAddTransaction projects={db.projects} />
 
         <div className="flex items-center justify-between">
@@ -26,8 +26,8 @@ export default async function TransactionsPage() {
           </a>
         </div>
 
-        <div className="card overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="card overflow-x-auto">
+          <table className="w-full text-sm min-w-[640px]">
             <thead className="bg-ink-50 text-ink-500 text-xs uppercase tracking-wide">
               <tr>
                 <th className="text-left px-4 py-3">Date</th>

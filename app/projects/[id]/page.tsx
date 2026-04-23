@@ -55,7 +55,7 @@ export default async function ProjectPage({ params }: { params: Promise<{ id: st
   return (
     <>
       <Topbar title={p.name} subtitle={p.description ?? "Project detail"} />
-      <div className="px-6 py-6 space-y-6">
+      <div className="px-4 sm:px-6 py-5 sm:py-6 space-y-6">
         <ProjectSwitcher projects={db.projects} activeId={p.id} />
 
         {/* Hero card */}

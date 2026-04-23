@@ -14,7 +14,7 @@ export default async function TasksPage() {
   return (
     <>
       <Topbar title="Tasks" subtitle={`${db.tasks.length} across ${db.projects.length} projects`} />
-      <div className="px-6 py-6 space-y-4">
+      <div className="px-4 sm:px-6 py-5 sm:py-6 space-y-4">
         {grouped.map(({ project, tasks }) => (
           <div key={project.id} className="card p-5">
             <div className="flex items-center gap-3 mb-3">

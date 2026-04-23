@@ -9,6 +9,11 @@ interface UIState {
 
   activeProjectId: string | null;
   setActiveProject: (id: string | null) => void;
+
+  mobileNavOpen: boolean;
+  openMobileNav: () => void;
+  closeMobileNav: () => void;
+  toggleMobileNav: () => void;
 }
 
 export const useUI = create<UIState>((set) => ({
@@ -19,4 +24,9 @@ export const useUI = create<UIState>((set) => ({
 
   activeProjectId: null,
   setActiveProject: (id) => set({ activeProjectId: id }),
+
+  mobileNavOpen: false,
+  openMobileNav:   () => set({ mobileNavOpen: true }),
+  closeMobileNav:  () => set({ mobileNavOpen: false }),
+  toggleMobileNav: () => set(s => ({ mobileNavOpen: !s.mobileNavOpen })),
 }));

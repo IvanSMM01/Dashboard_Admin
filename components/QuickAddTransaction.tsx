@@ -16,10 +16,10 @@ export default function QuickAddTransaction({ projects, defaultProjectId }: { pr
     <form
       action={(fd) => start(async () => { await addTransaction(fd); (document.getElementById("qa-form") as HTMLFormElement)?.reset(); })}
       id="qa-form"
-      className="card p-4 flex flex-wrap items-end gap-2"
+      className="card p-4 grid grid-cols-2 sm:flex sm:flex-wrap items-end gap-2"
     >
       <input type="hidden" name="type" value={type} />
-      <div className="inline-flex rounded-xl bg-ink-50 p-1 text-xs">
+      <div className="col-span-2 sm:col-auto inline-flex rounded-xl bg-ink-50 p-1 text-xs w-fit">
         <button type="button" onClick={() => setType("expense")}
           className={clsx("px-2.5 py-1.5 rounded-lg inline-flex items-center gap-1.5",
             type === "expense" ? "bg-rose-500 text-white shadow-sm" : "text-ink-500 hover:text-ink-800")}>
@@ -64,7 +64,7 @@ export default function QuickAddTransaction({ projects, defaultProjectId }: { pr
       </Field>
 
       <button disabled={pending}
-        className="ml-auto inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-ink-900 text-white text-sm font-medium shadow-md hover:bg-ink-800 disabled:opacity-60">
+        className="col-span-2 sm:col-auto sm:ml-auto inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl bg-ink-900 text-white text-sm font-medium shadow-md hover:bg-ink-800 disabled:opacity-60">
         {pending ? <Loader2 size={14} className="animate-spin"/> : <Plus size={14}/>}
         Add
       </button>

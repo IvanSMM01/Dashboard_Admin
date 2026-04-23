@@ -21,7 +21,7 @@ export default async function InsightsPage() {
   return (
     <>
       <Topbar title="AI Insights" subtitle="Auto-generated suggestions from your data" />
-      <div className="px-6 py-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="px-4 sm:px-6 py-5 sm:py-6 grid grid-cols-1 lg:grid-cols-2 gap-4">
 
         <Card icon={<Sparkles size={16}/>} tone="brand" title="Weekly summary">
           <p className="text-sm text-ink-700 leading-relaxed">
